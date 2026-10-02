@@ -1,0 +1,177 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f7fa"><meta name="description" content="理想绳与弹性绳运动模拟：调节初速度、弹性系数，回看最长120秒的位置、速度和受力。"><title>竖直圆周运动模拟</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTQiIGZpbGw9IiMxNzJjNDciLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjMyIiByPSIyMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOGFiN2Y2IiBzdHJva2Utd2lkdGg9IjMiLz48cGF0aCBkPSJNMzIgMzJMNDcgNDciIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMyIvPjxjaXJjbGUgY3g9IjQ3IiBjeT0iNDciIHI9IjYiIGZpbGw9IiNmZmYiLz48L3N2Zz4="><style>
+:root{color-scheme:light;--foreground:#152333;--background:#f5f7fa;--border:#d9e1eb;--viz-series-1:#176ee5;--viz-series-2:#b26606;--viz-series-3:#11806c;--viz-series-4:#a840b1;--primary:#172c47;--primary-foreground:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--background);color:var(--foreground);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:780px;margin:auto;padding:24px 22px 40px}header{margin:0 0 22px}.eyebrow{font-size:13px;letter-spacing:2px;color:#52667b}h1{font-size:28px;letter-spacing:-1px;line-height:1.3;margin:6px 0}header p{color:#52667b;margin:0;font-size:14px}.viz-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px}.form-label{display:block;font-size:14px}.form-control{display:block;width:100%;border:1px solid var(--border);border-radius:8px;background:#fff;padding:9px 12px;margin-top:5px;font:inherit;min-height:44px}.form-range{width:100%;height:36px;accent-color:#176ee5;margin:0;touch-action:pan-y}.viz-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.btn{min-height:44px;border:1px solid var(--border);border-radius:8px;background:#fff;padding:9px 13px;font:inherit;font-size:14px;color:var(--foreground);touch-action:manipulation;cursor:pointer}.btn-primary{background:var(--primary);color:var(--primary-foreground);border-color:var(--primary);min-width:90px}.btn:focus-visible,input:focus-visible{outline:3px solid #70a6f1;outline-offset:2px}.btn:active{transform:translateY(1px)}.text-small{font-size:13px;color:#52667b}.tabular-nums{font-variant-numeric:tabular-nums}output{font-size:14px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}#vertical-circle .vc-scene{height:350px;margin:8px 0;background:#fff;border-radius:14px}#vertical-circle .vc-scene text{font-size:14px}#vertical-circle .vc-stats{border-top:1px solid var(--border);padding-top:16px;gap:12px 18px}#vc-status{font-size:14px}details{margin-top:24px;border-top:1px solid var(--border);padding-top:14px;color:#52667b;font-size:14px}summary{cursor:pointer;min-height:44px}details p{margin:4px 0 12px}footer{margin-top:24px;font-size:13px;color:#52667b}@media(max-width:460px){main{padding:18px 16px 30px}header{margin-bottom:16px}h1{font-size:26px}#vertical-circle .vc-scene{height:280px}.btn{padding:8px 11px}#vertical-circle .vc-stats{grid-template-columns:1fr}.vc-legend{font-size:13px}.viz-controls{gap:12px}}
+</style><style>
+[hidden]{display:none!important}main{max-width:1120px}.lab-layout{display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:28px;align-items:start}.lab-controls,.lab-results{min-width:0}.lab-controls>.form-label{margin-bottom:16px}.duration-label{margin-top:18px}.model-hint{font-size:13px;color:#52667b;margin:8px 0 14px}.time-actions{margin-top:12px}.time-actions>label{display:flex;align-items:center;gap:7px;font-size:14px}.form-control.time-number{display:inline-block;width:96px;margin:0}.lab-controls select{font:inherit}#vertical-circle .vc-scene{height:420px;margin-top:0}#vertical-circle .vc-stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 20px}#vc-scale{margin-top:14px}.vc-stats>div{overflow-wrap:anywhere}
+@media(max-width:800px){main{max-width:680px}.lab-layout{grid-template-columns:minmax(0,1fr);gap:12px}.lab-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}.lab-controls>.viz-controls,.lab-controls>.vc-block,.lab-controls>#vc-presets,.lab-controls>.model-hint{grid-column:1/-1}.lab-controls>.form-label{grid-column:1/-1}.lab-controls>#vc-elastic-controls{grid-column:1/-1}#vertical-circle .vc-scene{height:350px}#vertical-circle .vc-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:420px){#vertical-circle .vc-scene{height:310px}#vertical-circle .vc-stats{grid-template-columns:1fr}.time-actions{gap:10px}.vc-header output{max-width:100%;overflow-wrap:anywhere}}
+</style></head><body><main><div id="vertical-circle">
+<style>
+#vertical-circle{color:var(--foreground)}
+#vertical-circle .vc-block{margin:12px 0}
+#vertical-circle .vc-header{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#vertical-circle .vc-scene{display:block;width:100%;height:360px}
+#vertical-circle .vc-scene text{fill:var(--foreground)}
+#vertical-circle .vc-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 18px;margin:12px 0}
+#vertical-circle .vc-legend{display:flex;gap:8px 18px;flex-wrap:wrap}
+#vertical-circle .vc-swatch{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}
+#vertical-circle .appearance-controls{grid-column:1/-1;border-top:1px solid var(--border);padding-top:16px;display:grid;gap:12px}
+#vertical-circle .effect-toggle{display:flex;align-items:center;justify-content:space-between;font-size:14px;min-height:44px;cursor:pointer}
+#vertical-circle .effect-toggle input{width:22px;height:22px;accent-color:var(--viz-series-1);cursor:pointer}
+#vertical-circle select:disabled{background:#edf1f5;color:#52667b}
+@media(max-width:420px){#vertical-circle .vc-scene{height:310px}#vertical-circle .vc-stats{grid-template-columns:1fr}}
+</style>
+<header><span class="eyebrow">力学实验室</span><h1>竖直圆周运动</h1><p>理想绳与弹性绳 · 从最低点向右出发</p></header>
+<div class="lab-layout"><section class="lab-controls" aria-label="模拟参数">
+<label class="form-label" for="vc-model">绳子模型<select class="form-control" id="vc-model"><option value="ideal">理想绳</option><option value="elastic">弹性绳</option></select></label>
+<div class="viz-controls">
+<label class="form-label" for="vc-length">长度 L（m）<input class="form-control" id="vc-length" type="number" min="0.1" max="10" step="0.1" value="1"></label>
+<label class="form-label" for="vc-mass">质量 m（kg）<input class="form-control" id="vc-mass" type="number" min="0.01" max="100" step="0.01" value="1"></label>
+</div>
+<div id="vc-elastic-controls" hidden><label class="form-label" for="vc-stiffness">弹性系数 k（N/m）<input class="form-control" id="vc-stiffness" type="number" min="5" max="500" step="1" value="50"></label><p class="model-hint">L 为自然长度；初始绳长也为 L，初始拉力为零。</p></div>
+<div class="vc-block"><div class="vc-header"><label for="vc-speed">初速度 v₀</label><output id="vc-speed-value" class="tabular-nums"></output></div>
+<input id="vc-speed" class="form-range" type="range" min="0" max="3.2" step="0.005" value="2"></div>
+<div class="viz-row" id="vc-presets"><button class="btn" type="button" data-q="slack-critical">松弛临界点</button><button class="btn" type="button" data-q="critical">完整绕圈（临界速度）</button></div>
+<label class="form-label duration-label" for="vc-duration">模拟时长<select class="form-control" id="vc-duration"><option value="30">30 秒</option><option value="60" selected>60 秒</option><option value="120">120 秒</option></select></label>
+<div class="vc-block appearance-controls">
+<label class="form-label" for="vc-trail-duration">轨迹保留<select class="form-control" id="vc-trail-duration"><option value="6" selected>最近 6 秒</option><option value="15">最近 15 秒</option><option value="30">最近 30 秒</option><option value="60">最近 60 秒</option><option value="all">全部已走过的轨迹</option></select></label>
+<label class="effect-toggle" for="vc-effect-enabled">小球特效<input id="vc-effect-enabled" type="checkbox" role="switch"></label>
+<label class="form-label" for="vc-effect-type">特效样式<select class="form-control" id="vc-effect-type" disabled><option value="glow">柔光</option><option value="halo">光环</option><option value="ghost">残影</option><option value="particles">粒子</option></select></label>
+</div>
+<p class="model-hint" id="vc-model-note">L 为固定绳长；初速度预设仅适用于理想细绳。</p>
+</section><section class="lab-results" aria-label="运动与受力">
+<svg class="vc-scene" id="vc-scene" role="img" aria-label="小球运动轨迹、绳子、重力、拉力、合力与速度箭头"></svg>
+<div class="vc-legend text-small"><span><i class="vc-swatch" style="background:var(--viz-series-1)"></i>速度 v</span><span><i class="vc-swatch" style="background:var(--viz-series-2)"></i>重力 G</span><span><i class="vc-swatch" style="background:var(--viz-series-3)"></i>拉力 T</span><span><i class="vc-swatch" style="background:var(--viz-series-4)"></i>合力 F（虚线）</span></div>
+<div class="vc-block"><div class="vc-header"><label for="vc-time">时间 t</label><output id="vc-time-value" class="tabular-nums"></output></div><input id="vc-time" class="form-range" type="range" min="0" max="60" step="0.01" value="0"></div>
+<div class="viz-row time-actions"><label for="vc-time-number">定位到 <input class="form-control time-number" id="vc-time-number" type="number" min="0" max="60" step="0.01" value="0"> 秒</label><button id="vc-play" class="btn btn-primary" type="button">播放</button><span id="vc-status" aria-live="polite"></span></div>
+</section></div>
+<p id="vc-event-note" class="model-hint"></p>
+<div id="vc-stats" class="vc-stats tabular-nums"></div>
+<div class="text-small" id="vc-scale"></div>
+<span id="vc-accessible" class="sr-only" aria-live="polite"></span>
+<script>
+(()=>{
+const root=document.getElementById('vertical-circle'),get=id=>root.querySelector('#vc-'+id),svg=get('scene'),g=9.8,dt=.01;
+let L=1,m=1,q=2,k=50,model="ideal",total=60,samples=[],events=[],time=0,playing=false,last=0,raf=0,maxRadius=1,vectorScaleCache=null;
+let trailSeconds=6,effectEnabled=false,effectType='glow';
+const fmt=(v,n=3)=>(Math.abs(v)<.5*10**(-n)?0:v).toFixed(n);
+function rk(th,w,h){const a=w,b=-Math.sin(th),c=w+h*b/2,d=-Math.sin(th+h*a/2),e=w+h*d/2,f=-Math.sin(th+h*c/2),k=w+h*f,l=-Math.sin(th+h*e);return [th+h*(a+2*c+2*e+k)/6,w+h*(b+2*d+2*f+l)/6]}
+function cart(s){if(s.mode==='taut'){let x=Math.sin(s.th),y=-Math.cos(s.th);return {x,y,vx:s.w*Math.cos(s.th),vy:s.w*Math.sin(s.th),T:Math.max(0,s.w*s.w+Math.cos(s.th)),mode:s.mode}}let a=s.age;return {x:s.x+s.vx*a,y:s.y+s.vy*a-a*a/2,vx:s.vx,vy:s.vy-a,T:0,mode:s.mode}}
+function advance(s,h,t,depth=0){if(h<1e-12||depth>5)return s;
+if(s.mode==='taut'){
+ const [th,w]=rk(s.th,s.w,h),tension=w*w+Math.cos(th);
+ if(tension>=-1e-9)return {mode:'taut',th,w};
+ let lo=0,hi=h;for(let i=0;i<36;i++){let mid=(lo+hi)/2,[a,b]=rk(s.th,s.w,mid);if(b*b+Math.cos(a)>0)lo=mid;else hi=mid;}
+ const z=hi,[a,b]=rk(s.th,s.w,z),ww=Math.sign(b)*Math.sqrt(Math.max(0,-Math.cos(a))),c=cart({mode:'taut',th:a,w:ww});
+ if(c.vy<1e-8)return {mode:'taut',th,w};
+ events.push({t:t+z,type:'release'});
+ return advance({mode:'slack',x:c.x,y:c.y,vx:c.vx,vy:c.vy,age:0,duration:4*c.vy},h-z,t+z,depth+1);
+}
+ const remain=s.duration-s.age;if(h<remain)return {...s,age:s.age+h};
+ const c=cart({...s,age:s.duration}),r=Math.hypot(c.x,c.y),x=c.x/r,y=c.y/r,th=Math.atan2(x,-y),w=c.vx*(-y)+c.vy*x;
+ events.push({t:t+remain,type:'catch',impulse:Math.max(0,c.vx*x+c.vy*y),x,y,radialBefore:c.vx*x+c.vy*y,radialAfter:0,tangentBefore:w,tangentAfter:w});
+ return advance({mode:'taut',th,w},h-remain,t+remain,depth+1);
+}
+// Coordinates and velocities are normalized by L and sqrt(gL).
+function elasticDerivative(z,K){const r=Math.hypot(z[0],z[1]),force=K*Math.max(0,r-1),f=r>1e-12?force/r:0;return [z[2],z[3],-f*z[0],-1-f*z[1]]}
+function elasticStep(z,h,K){const a=elasticDerivative(z,K),b=elasticDerivative(z.map((v,i)=>v+h*a[i]/2),K),c=elasticDerivative(z.map((v,i)=>v+h*b[i]/2),K),d=elasticDerivative(z.map((v,i)=>v+h*c[i]),K);return z.map((v,i)=>v+h*(a[i]+2*b[i]+2*c[i]+d[i])/6)}
+function elasticCart(z,K){const r=Math.hypot(z[0],z[1]),T=K*Math.max(0,r-1);return {x:z[0],y:z[1],vx:z[2],vy:z[3],T,mode:T>1e-9?'elastic':'slack'}}
+function rebuild(){
+ samples=[];events=[];maxRadius=1;vectorScaleCache=null;const K=k*L/(m*g),unit=Math.sqrt(g/L),interval=dt*unit,maxStep=model==='elastic'?Math.min(.003,.04/Math.sqrt(K)):.002,sub=Math.ceil(interval/maxStep),h=interval/sub;
+ let state=model==='elastic'?[0,-1,q,0]:{mode:'taut',th:0,w:q};
+ samples.push(model==='elastic'?elasticCart(state,K):cart(state));
+ for(let i=1;i<=Math.round(total/dt);i++){
+  for(let j=0;j<sub;j++)state=model==='elastic'?elasticStep(state,h,K):advance(state,h,((i-1)*dt)*unit+j*h);
+  const c=model==='elastic'?elasticCart(state,K):cart(state);samples.push(c);maxRadius=Math.max(maxRadius,Math.hypot(c.x,c.y));
+ }
+ time=0;get('time').max=total;get('time-number').max=total;get('time').value=0;get('time-number').value=0;
+ get('elastic-controls').hidden=model!=='elastic';get('presets').hidden=model==='elastic';
+ get('model-note').textContent=model==='elastic'?'弹性绳收紧后继续伸缩，不切换到固定半径圆周运动。虚圆表示自然长度 L。':'松弛临界速度：√(2gL) = '+fmt(Math.sqrt(2*g*L))+' m/s；临界点瞬时拉力为零后返回。持续松弛区间：√(2gL) < v₀ < √(5gL)。';draw();
+}
+function current(){let index=Math.min(samples.length-1,Math.round(time/dt));return [samples[index],index]}
+function arrow(x,y,dx,dy,color,label,dashed=false){let len=Math.hypot(dx,dy);if(len<.5)return '';let ex=x+dx,ey=y+dy,ux=dx/len,uy=dy/len;return '<path d="M '+x+' '+y+' L '+ex+' '+ey+'" stroke="var(--viz-series-'+color+')" stroke-width="'+(dashed?4:3)+'" '+(dashed?'stroke-dasharray="5 4"':'')+' fill="none"/><path d="M '+(ex-11*ux+5*uy)+' '+(ey-11*uy-5*ux)+' L '+ex+' '+ey+' L '+(ex-11*ux-5*uy)+' '+(ey-11*uy+5*ux)+'" stroke="var(--viz-series-'+color+')" stroke-width="2" fill="none"/><text x="'+(ex+7)+'" y="'+(ey-5)+'">'+label+'</text>'}
+function trajectoryPath(index,X,Y){
+ const start=Number.isFinite(trailSeconds)?Math.max(0,index-Math.round(trailSeconds/dt)):0,step=Math.max(2,Math.ceil((index-start)/2400));
+ let path='';for(let i=start;i<index;i+=step){const a=samples[i];path+=(path?' L ':'M ')+X(a.x)+' '+Y(a.y);}
+ const a=samples[index];return path+(path?' L ':'M ')+X(a.x)+' '+Y(a.y);
+}
+function ballEffects(index,X,Y){
+ if(!effectEnabled)return '';
+ const s=samples[index],x=X(s.x),y=Y(s.y);let shapes='';
+ if(effectType==='glow')shapes='<circle cx="'+x+'" cy="'+y+'" r="25" fill="#176ee5" opacity=".04"/><circle cx="'+x+'" cy="'+y+'" r="18" fill="#176ee5" opacity=".08"/><circle cx="'+x+'" cy="'+y+'" r="12" fill="#176ee5" opacity=".16"/>';
+ else if(effectType==='halo'){
+  const pulse=Math.sin(time*3)*3;
+  shapes='<circle cx="'+x+'" cy="'+y+'" r="'+(16+pulse)+'" stroke="#176ee5" stroke-width="2" opacity=".55" fill="none"/><circle cx="'+x+'" cy="'+y+'" r="'+(23-pulse)+'" stroke="#a840b1" stroke-width="1.5" opacity=".3" fill="none"/>';
+ }else if(effectType==='ghost'){
+  for(let j=12;j>=1;j--){const i=index-Math.round(j*.04/dt);if(i<0)continue;const a=samples[i];shapes+='<circle cx="'+X(a.x)+'" cy="'+Y(a.y)+'" r="'+(7-j*.18)+'" fill="#176ee5" opacity="'+(.32*(1-j/13))+'"/>';}
+ }else if(effectType==='particles'){
+  for(let j=28;j>=1;j--){const age=j*.025,i=index-Math.round(age/dt);if(i<0)continue;const a=samples[i],fade=1-j/29,seed=i*2.39996;
+   shapes+='<circle cx="'+(X(a.x)+Math.sin(seed)*age*14)+'" cy="'+(Y(a.y)+Math.cos(seed)*age*14-age*6)+'" r="'+(1.2+fade*1.5)+'" fill="'+(j%2?'#176ee5':'#a840b1')+'" opacity="'+(.65*fade)+'"/>';
+  }
+ }
+ return '<g aria-hidden="true" data-effect="'+effectType+'">'+shapes+'</g>';
+}
+function draw(){if(!samples.length)return;const [s,index]=current(),W=svg.clientWidth||600,H=svg.clientHeight||360,sceneR=Math.min(W*.285,H*.285),R=sceneR/maxRadius,cx=W/2,cy=H*.46,X=x=>cx+x*R,Y=y=>cy-y*R,x=X(s.x),y=Y(s.y),radius=Math.hypot(s.x,s.y),nx=radius>1e-12?s.x/radius:0,ny=radius>1e-12?s.y/radius:0,fx=-s.T*nx,fy=-1-s.T*ny;
+// Use one scale for the entire trajectory, never rescale from the current force.
+if(!vectorScaleCache||vectorScaleCache.W!==W||vectorScaleCache.H!==H){
+ let forceScale=sceneR*.55,velocityScale=sceneR*.85/Math.max(1,q);
+ function constrain(scale,px,py,dx,dy){
+  if(dx>0)scale=Math.min(scale,(W-32-px)/dx);
+  if(dx<0)scale=Math.min(scale,(px-24)/(-dx));
+  if(dy>0)scale=Math.min(scale,(H-24-py)/dy);
+  if(dy<0)scale=Math.min(scale,(py-24)/(-dy));
+  return Math.max(0,scale);
+ }
+ for(const a of samples){
+  const r=Math.hypot(a.x,a.y),ux=r>1e-12?a.x/r:0,uy=r>1e-12?a.y/r:0,px=X(a.x),py=Y(a.y),tx=-a.T*ux,ty=a.T*uy;
+  forceScale=constrain(forceScale,px,py,0,1);
+  forceScale=constrain(forceScale,px,py,tx,ty);
+  forceScale=constrain(forceScale,px,py,tx,1+ty);
+  velocityScale=constrain(velocityScale,px,py,a.vx,-a.vy);
+ }
+ vectorScaleCache={W,H,forceScale,velocityScale};
+}
+const fscale=vectorScaleCache.forceScale,vscale=vectorScaleCache.velocityScale;
+svg.setAttribute('viewBox','0 0 '+W+' '+H);const path=trajectoryPath(index,X,Y),effects=ballEffects(index,X,Y);
+let rope=s.mode!=='slack'?'M '+cx+' '+cy+' L '+x+' '+y:'M '+cx+' '+cy+' Q '+((cx+x)/2+R*.22)+' '+((cy+y)/2+R*.35)+' '+x+' '+y;
+if(s.mode==='elastic'){
+ const dx=x-cx,dy=y-cy,len=Math.hypot(dx,dy),ux=len>0?dx/len:0,uy=len>0?dy/len:0,amp=Math.min(5,len*.05);rope='M '+cx+' '+cy;
+ for(let j=1;j<=20;j++){const f=j/20,off=j===20?0:(j%2?amp:-amp);rope+=' L '+(cx+dx*f-uy*off)+' '+(cy+dy*f+ux*off);}
+}
+svg.innerHTML='<title>竖直细绳小球运动</title><circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" stroke="var(--border)" stroke-dasharray="4 4" fill="none"/><path d="M '+(cx-R-15)+' '+cy+' H '+(cx+R+15)+' M '+cx+' '+(cy-R-15)+' V '+(cy+R+15)+'" stroke="var(--border)" fill="none"/><text x="'+(cx+R+17)+'" y="'+(cy+4)+'">x</text><text x="'+(cx+5)+'" y="'+(cy-R-17)+'">y</text><path d="'+path+'" stroke="var(--viz-series-1)" opacity=".4" stroke-width="2" fill="none"/>'+effects+'<path d="'+rope+'" stroke="var(--foreground)" stroke-width="1.5" fill="none"/><circle cx="'+cx+'" cy="'+cy+'" r="3" fill="var(--foreground)"/><text x="'+(cx-18)+'" y="'+(cy-8)+'">O</text>'+arrow(x,y,s.vx*vscale,-s.vy*vscale,1,'v')+arrow(x,y,0,fscale,2,'G')+arrow(x,y,-s.T*nx*fscale,s.T*ny*fscale,3,'T')+arrow(x,y,fx*fscale,-fy*fscale,4,'F',true)+'<circle cx="'+x+'" cy="'+y+'" r="7" fill="var(--viz-series-1)"/>';
+const vunit=Math.sqrt(g*L),tunit=Math.sqrt(L/g),newstatus=s.mode==='slack'?'绳子无拉力 · 抛体运动':(s.mode==='elastic'?'弹性绳伸长 · 变半径运动':'理想绳绷紧 · 圆弧运动');if(get('status').textContent!==newstatus)get('status').textContent=newstatus;
+get('speed-value').textContent=fmt(q*vunit)+' m/s · '+fmt(q)+'√(gL)';get('time-value').textContent=fmt(time,2)+' / '+fmt(total,0)+' s';
+const radialSpeed=radius>1e-12?(s.x*s.vx+s.y*s.vy)/radius:0;
+let recent=null;for(const event of events){if(event.t>time/tunit+1e-9)break;recent=event;}
+get('event-note').textContent=model==='elastic'?'弹性绳：拉力随伸长量连续变化；径向速度不被人为清零。':(recent&&recent.type==='catch'?'最近收紧：t = '+fmt(recent.t*tunit,2)+' s，r = L。无回弹收紧假设：外向径向速度由 '+fmt(recent.radialBefore*vunit)+' m/s 变为 0，切向速度保留。':(recent?'最近松弛：t = '+fmt(recent.t*tunit,2)+' s。小球只受重力，直到 r 再次达到 L 才处理收紧。':'不可伸长绳采用收紧无回弹假设；需要收紧后继续伸缩，请选弹性绳模式。'));
+const vals=[['位置 (x, y)', '('+fmt(s.x*L)+', '+fmt(s.y*L)+') m'],['速度 (vₓ, vᵧ)','('+fmt(s.vx*vunit)+', '+fmt(s.vy*vunit)+') m/s'],['速率 |v|',fmt(Math.hypot(s.vx,s.vy)*vunit)+' m/s'],['径向速度 ṙ（外向为正）',radius>1e-12?fmt(radialSpeed*vunit)+' m/s':'悬点处方向未定义'],['悬点到小球的距离 r',fmt(radius*L)+' m'],['绳子伸长量 ΔL',fmt(model==='elastic'?Math.max(0,radius-1)*L:0)+' m'],['重力 G / 拉力 T',fmt(m*g,2)+' / '+fmt(m*g*s.T,2)+' N'],['合力 (Fₓ, Fᵧ)','('+fmt(m*g*fx,2)+', '+fmt(m*g*fy,2)+') N'],['合力大小 |F|',fmt(m*g*Math.hypot(fx,fy),2)+' N'],['合力分量（向心 / 切向）',Math.hypot(s.x,s.y)>1e-8?fmt(m*g*(s.T+s.y/Math.hypot(s.x,s.y)),2)+' / '+fmt(-m*g*s.x/Math.hypot(s.x,s.y),2)+' N':'圆心处方向未定义']];
+get('stats').innerHTML=vals.map(([a,b])=>'<div><span class="text-small">'+a+'</span><br>'+b+'</div>').join('');get('scale').textContent='O 为原点，y 轴向上 · g = 9.8 m/s² · 本次模拟力标尺固定，重力箭头长度恒定；速度另用固定标尺';
+}
+function stop(){playing=false;cancelAnimationFrame(raf);get('play').textContent='播放';}
+function frame(now){if(!playing)return;if(last)time=Math.min(total,time+(now-last)/1000);last=now;get('time').value=time;if(document.activeElement!==get('time-number'))get('time-number').value=fmt(time,2);draw();if(time>=total)stop();else raf=requestAnimationFrame(frame);}
+get('play').onclick=()=>{if(playing){stop();return}if(time>=total)time=0;playing=true;last=0;get('play').textContent='暂停';raf=requestAnimationFrame(frame)};
+get('time').oninput=()=>{stop();time=+get('time').value;get('time-number').value=fmt(time,2);draw();get('accessible').textContent=get('time-value').textContent+'，'+get('status').textContent;};
+get('speed').oninput=()=>{stop();q=+get('speed').value;rebuild();};
+get('trail-duration').onchange=()=>{trailSeconds=get('trail-duration').value==='all'?Infinity:+get('trail-duration').value;draw();};
+get('effect-enabled').onchange=()=>{effectEnabled=get('effect-enabled').checked;get('effect-type').disabled=!effectEnabled;draw();};
+get('effect-type').onchange=()=>{effectType=get('effect-type').value;draw();};
+root.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{stop();q=b.dataset.q==='critical'?Math.sqrt(5):(b.dataset.q==='slack-critical'?Math.sqrt(2):+b.dataset.q);get('speed').value=q;rebuild()});
+get('time-number').onchange=()=>{if(!get('time-number').checkValidity()){get('time-number').reportValidity();return}stop();time=+get('time-number').value;get('time').value=time;draw()};
+for(const key of ['length','mass','stiffness','model','duration'])get(key).onchange=()=>{if(!['length','mass','stiffness'].every(id=>get(id).checkValidity())){['length','mass','stiffness'].forEach(id=>{if(!get(id).checkValidity())get(id).reportValidity()});return}stop();L=+get('length').value;m=+get('mass').value;k=+get('stiffness').value;model=get('model').value;total=+get('duration').value;rebuild()};
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(draw).observe(svg);else window.addEventListener('resize',draw);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});rebuild();
+
+
+})();
+</script>
+</div>
+<details><summary>物理模型、方程与计算说明</summary>
+<p>小球视为质点，绳子无质量，悬点固定，忽略空气阻力、阻尼和支点碰撞。坐标原点为悬点，x 向右、y 向上，g = 9.8 m/s²；初始位置为 (0, −L)，初速度为 (v₀, 0)。</p>
+<p><strong>理想细绳：</strong>长度固定为 L，绷紧时 T = m(v²/L + g cosθ)，θ 从竖直向下方向计量。初速度小于 √(2gL) 时往返摆动；等于 √(2gL) 时恰好到达水平位置，速度和拉力在该瞬间均为零，随后返回，不会出现持续的抛体运动；严格介于 √(2gL) 与 √(5gL) 之间时绳子会持续松弛；达到 √(5gL) 时可完成整圈，临界最高点拉力恰好为零。以上临界速度仅适用于理想细绳。</p>
+<p>不可伸长绳松弛后按抛体运动计算，不能仅凭小球落到某一高度就恢复圆弧运动。只有距离悬点重新达到 L、且具有向外的径向速度时，才发生收紧。当前不可伸长模型额外假设收紧无回弹：径向速度在冲量作用下变为零，切向速度保留，机械能减少 ½m(vᵣ⁻)²。收紧后若维持约束所需拉力非负，小球沿圆弧继续运动。该瞬间的冲量不画成有限力箭头；这项假设不代表所有真实绳子的行为。</p>
+<p><strong>弹性绳：</strong>L 为自然长度，k 为弹性系数，r = √(x²+y²)。拉力 T = k max(r−L, 0)，只在伸长时有拉力，不提供推力。初始 r = L，因此初始拉力为零。绳长变化时轨迹通常不是圆；这里不把弹性绳当作不可伸长绳处理，也不套用理想绳临界速度。</p>
+<p>弹性绳运动方程：m ẍ = −T x/r，m ÿ = −mg −T y/r；r = 0 时按拉力为零处理。机械能 E = ½mv² + mgy + ½k[max(r−L,0)]²，采用四阶 Runge–Kutta 数值积分。松弛后重新达到自然长度时，继续积分同一组运动方程，不清除径向速度，也不切换成圆周运动；小球会在弹力作用下继续伸长、减速、收缩，伴随摆动。</p>
+<p>力的向心分量以指向悬点为正，切向分量以逆时针为正。速度箭头与力箭头使用不同标尺。每次计算完整轨迹后，各力共用一个全程固定的标尺，重力箭头在播放和拖动时间时始终等长；速度也使用全程固定标尺。仅修改参数或改变窗口尺寸时重新确定标尺，使矢量完整显示。虚圆半径为 L。松弛绳的弯曲形状、弹性绳的折线都是示意。</p>
+<p>模拟时长可选 30、60、120 秒，时间滑动条和定位输入精确到 0.01 秒。修改模型、初速度或参数会回到起点；改变 L 时保持 v₀/√(gL) 不变。手机可触摸滑动，电脑可鼠标拖动，也可用方向键调整聚焦的滑动条。</p>
+<p>轨迹可保留最近 6、15、30、60 秒，或保留从起点到当前时刻的全部轨迹；回看时间时不显示未来轨迹。柔光、光环、残影和粒子特效可开启、关闭和切换，只改变显示效果，不影响运动计算。调整轨迹与特效时可继续播放。</p>
+</details></main></body></html>
